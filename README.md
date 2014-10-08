@@ -5,7 +5,7 @@ Flexible simple job/task queue engine built on the top of Django framework.
 Allows designing and launching complex fully automated jobs straight from admin panel.
 Capo can be easily extended with new tasks performing different actions allowing unlimited flexibility.
 All jobs are logged together with it results, errors etc. 
-Tested with Django 1.6.6 and 1.7
+Tested with Django 1.6.6 and 1.7 on ubuntu.
 
 Concepts
 --------
