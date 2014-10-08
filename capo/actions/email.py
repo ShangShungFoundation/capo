@@ -16,7 +16,7 @@ def send(task_param):
     try:
         sent = send_mail(subject, message, sender, to, fail_silently=False)
     except:
-        msg = "Can't send email to %s" % to
+        msg = "Can't send email %s" % task_param
         result["error"] = msg
         return False, result
     else:
