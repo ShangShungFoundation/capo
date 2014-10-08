@@ -11,9 +11,9 @@ Concepts
 
 *Recipe* - defines tasks and initial parameters for a job and max quantity of parallel jobs
 
-*Job* - defines job parameters for Recipe execution, status of execution, failback bahaviour. Job parameters overwrite Recipe parameters. Each job can have various tasks
+*Job* - defines job parameters for Recipe execution, failback bahaviour and stores status of execution. Job parameters overwrite Recipe parameters. Each job can have various tasks
 
-*Task* - defines action, its parameters and failback action
+*Task* - defines action, its parameters and failback behaviour in case of error.
 
 *Worker* - defines worker which can be specialized in some recepies
 
