@@ -1,16 +1,18 @@
 Capo
 ====
 
-Flexible simple job/task queue engine built on the top of django.
+Flexible simple job/task queue engine built on the top of Django framework.
 Allows designing and launching complex jobs straight from admin panel.
-All jobs are loged together with it results, errors etc. Tested with Django 1.6.6 and 1.7
+Capo can be easily extended with new tasks performing different actions allowing unlimited flexibility.
+All jobs are logged together with it results, errors etc. 
+Tested with Django 1.6.6 and 1.7
 
 Concepts
 --------
 
 *Recipe* - defines tasks and initial parameters for a job and max quantity of parallel jobs
 
-*Job* - defines job parameters for Recipe execution, failback bahaviour and stores status of execution. Job parameters overwrite Recipe parameters. Each job can have various tasks
+*Job* - defines job parameters for *Recipe* execution, failback bahaviour and stores status of execution. *Job* parameters overwrite *Recipe* parameters. Each job can have various tasks
 
 *Task* - defines action, its parameters and failback behaviour in case of error.
 
