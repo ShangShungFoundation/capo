@@ -1,10 +1,9 @@
 capo
 ====
 
-Flexible simple job/task queue engine built on the top of django
-Tested with Django 1.6.6
+Flexible simple job/task queue engine built on the top of django.
 Allows designing and launching complex jobs straight from admin panel.
-All jobs are loged together with it results, errors etc
+All jobs are loged together with it results, errors etc. Tested with Django 1.6.6 and 1.7
 
 Concepts
 --------
