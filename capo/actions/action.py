@@ -1,12 +1,12 @@
 class Action(object):
     # to be defined in child class
-    expacted_param = {}
+    expected_param = {}
     optional_param = {}
     expected_result = {}
     
     result = {}
     def __init__(self, action_param):
-        if inputs:
+        if action_param:
             self.action_param = action_param
             self.run(action_param)
     
