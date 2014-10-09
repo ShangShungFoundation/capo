@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from executor import ACTIONS
+from settings import ACTIONS
 
 
 class Recipe(models.Model):
