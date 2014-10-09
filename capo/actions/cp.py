@@ -19,7 +19,7 @@ def cp(task_param):
     except shutil.Error as e:
         msg = 'Coping Error: %s' % e
         result["error"] = msg
-        return False, job_param
+        return False, task_param
     # eg. source or destination doesn't exist
     except IOError as e:
         msg = 'Coping Error: %s' % e.strerror

@@ -1,5 +1,19 @@
 class Action(object):
-    def __init__(self, run, inputs, outputs):
-        self.run = run
-        self.inputs = inputs
-        self.outputs = outputs
+    # to be defined in child class
+    expacted_param = {}
+    optional_param = {}
+    expected_result = {}
+    
+    result = {}
+    def __init__(self, action_param):
+        if inputs:
+            self.action_param = action_param
+            self.run(action_param)
+    
+    def run(self, action_param):
+        # this should be overwritten 
+        pass
+    
+    def error(self, msg):
+        self.result["error"] = msg
+        return False, self.result
