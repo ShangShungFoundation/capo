@@ -1,10 +1,18 @@
 class Action(object):
-    # to be defined in child class
+    """
+    each action should have description
+
+    """
+    result = {}
+    errors = []
+
+    # to be defined in inherited class
+    name = ""
     expected_param = {}
     optional_param = {}
     expected_result = {}
     
-    result = {}
+
     def __init__(self, action_param):
         if action_param:
             self.action_param = action_param
@@ -17,3 +25,16 @@ class Action(object):
     def error(self, msg):
         self.result["error"] = msg
         return False, self.result
+
+    @classmethod
+    def check_task_param(cls, action_param):
+        errors = []
+        for param in action_param:
+            if param not in self.expected_param.keys():
+                msg = "action '%s' requires '%s' parameter" % (cls.name, param)
+                errors.append(msg)
+        return errors
+
+
+
+

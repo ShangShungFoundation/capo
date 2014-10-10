@@ -16,7 +16,7 @@ def json_serial(obj):
 
     if isinstance(obj, datetime.timedelta):
         "return total number of minutes"
-        return "%.2f" % round(obj.total_seconds() / 60, 2)
+        return "%.2f" % obj.total_seconds() / 60
 
     if isinstance(obj, datetime.datetime):
         return str(obj)
