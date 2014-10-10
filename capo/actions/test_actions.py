@@ -15,6 +15,10 @@ class FailingAction(Action):
         return True, result
 
 class AddingDotAction(Action):
+
+    expected_param = {"parameter": "string"}
+    expected_result = {"parameter": "string"}
+
     def run(task_param):
         """ Task that adds '.' """
         parameter = task_param["parameter"] + "."

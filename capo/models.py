@@ -21,8 +21,8 @@ class Recipe(models.Model):
         return self.name
 
     @staticmethod
-    def validate_tasks_inputs():
-        return True
+    def validate_tasks_inputs(tasks):
+        return False
 
 class Worker(models.Model):
     """
