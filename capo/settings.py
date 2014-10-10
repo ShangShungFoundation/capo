@@ -13,3 +13,11 @@ ACTIONS = dict(
 CAPO_ACTIONS = getattr(settings, "CAPO_ACTIONS", {})
 
 ACTIONS.update(CAPO_ACTIONS)
+
+if settings.DEBUG:
+    ACTIONS.update(dict(
+        failing_task="capo.actions.test_tasks",
+        adding_dot_task="capo.actions.test_tasks",
+        randomly_task="capo.actions.test_tasks",
+        multiplying10_task="capo.actions.multiplying10_task"
+    ))
