@@ -28,6 +28,10 @@ class AddingDotAction(Action):
         return True, result
 
 class Multiplying10Action(Action):
+
+    expected_params = {"number": "int"}
+    expected_result = {"number10": "int"}
+
     def run(task_param):
         """Task, that multiplies the number by 10"""
         multiply10 = task_param["number"] * 10
@@ -36,6 +40,10 @@ class Multiplying10Action(Action):
         return True, result
 
 class RandomAction(Action):
+
+    expected_params = {"threshold": "float"}
+    expected_result = {"value": "string"}
+
     def run(task_param):
         """ Task, that has 50% chance of success. """
         from random import random
