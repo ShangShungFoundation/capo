@@ -28,7 +28,7 @@ def randomly_task(task_param):
         res = False, result
     return res
 
-class FailingTask(Action):
+class FailingAction(Action):
 
     expected_param = {}
     optional_param = {}

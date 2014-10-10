@@ -1,6 +1,6 @@
 from django.conf import settings
 
-from actions.test_tasks import FailingTask
+from actions.test_actions import FailingAction
 
 ACTIONS = dict(
     cp="capo.actions.cp",
@@ -21,7 +21,7 @@ settings.DEBUG = True
 
 if settings.DEBUG:
     ACTIONS.update(dict(
-        failing_task=FailingTask,
+        failing=FailingAction,
         adding_dot_task="capo.actions.test_tasks",
         randomly_task="capo.actions.test_tasks",
         multiplying10_task="capo.actions.multiplying10_task"
