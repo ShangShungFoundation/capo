@@ -1,12 +1,5 @@
 from action import Action
 
-def failing_task(task_param):
-    """
-        Task that always fails
-    """
-    result = "error"
-    return True, result
-
 def adding_dot_task(task_param):
     """ Task that adds '.' """
     parameter = task_param["parameter"] + "."
@@ -35,12 +28,21 @@ def randomly_task(task_param):
         res = False, result
     return res
 
-faling_task_action = Action(
-    failing_task,
-    dict(),
-    dict(),
-)
+class FailingTask(Action):
 
+    expected_param = {}
+    optional_param = {}
+    expected_result = {}
+
+    result = {}
+    def run(self, action_param):
+        """
+            Task that always fails
+        """
+        result = "error"
+        return True, result
+
+"""
 adding_dot_task_action = Action(
     adding_dot_task,
     dict(parameter="string"),
@@ -58,3 +60,4 @@ randomly_task_action = Action(
     dict(threshold="float"),
     dict(value="string"),
 )
+"""

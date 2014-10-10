@@ -5,7 +5,7 @@ class Action(object):
     expected_result = {}
     
     result = {}
-    def __init__(self, action_param):
+    def __init__(self, action_param = None):
         if action_param:
             self.action_param = action_param
             self.run(action_param)

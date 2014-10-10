@@ -1,5 +1,7 @@
 from django.conf import settings
 
+from actions.test_tasks import FailingTask
+
 ACTIONS = dict(
     cp="capo.actions.cp",
     exe="capo.actions.exe",
@@ -14,9 +16,12 @@ CAPO_ACTIONS = getattr(settings, "CAPO_ACTIONS", {})
 
 ACTIONS.update(CAPO_ACTIONS)
 
+# where I set the Debug ???
+settings.DEBUG = True
+
 if settings.DEBUG:
     ACTIONS.update(dict(
-        failing_task="capo.actions.test_tasks",
+        failing_task=FailingTask,
         adding_dot_task="capo.actions.test_tasks",
         randomly_task="capo.actions.test_tasks",
         multiplying10_task="capo.actions.multiplying10_task"
