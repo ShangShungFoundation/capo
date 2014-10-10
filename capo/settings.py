@@ -1,6 +1,6 @@
 from django.conf import settings
 
-from actions.test_actions import FailingAction
+from actions.test_actions import FailingAction, AddingDotAction, RandomAction, Multiplying10Action
 
 ACTIONS = dict(
     cp="capo.actions.cp",
@@ -22,7 +22,7 @@ settings.DEBUG = True
 if settings.DEBUG:
     ACTIONS.update(dict(
         failing=FailingAction,
-        adding_dot_task="capo.actions.test_tasks",
-        randomly_task="capo.actions.test_tasks",
-        multiplying10_task="capo.actions.multiplying10_task"
+        adding_dot=AddingDotAction,
+        random=RandomAction,
+        multiplying10=Multiplying10Action,
     ))

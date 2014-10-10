@@ -8,6 +8,6 @@ from settings import ACTIONS
 
 class ActionsTestCase(TestCase):
     def test_one(self):
-        ft = ACTIONS["failing"]()
-        print ft.result
+        a = ACTIONS
+        print(a["failing"](), a["adding_dot"](), a["random"](), a["multiplying10"])
         self.assertTrue(True)
