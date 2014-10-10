@@ -22,13 +22,22 @@ class Recipe(models.Model):
 
     @staticmethod
     def validate_tasks_inputs(tasks):
-        task = tasks[0]
-        task_param = task.param
-        task_action = ACTIONS[task.action_name]()
-        task_param_dict = loads(task_param)
-        for expected_param in task_action.expected_params:
-            if not expected_param in task_param_dict:
-                raise Exception("recipe not configured correctly")
+        job_param = dict()
+        for task in tasks:
+            task_action = ACTIONS[task.action_name]()
+            # check if the applying runs correctly, the types do match
+            try:
+                params_applied = task.param % job_param
+                loaded_dict = loads(params_applied)
+                job_param.update(loaded_dict)
+            except Exception as e:
+                raise Exception("wrong job params")
+            # check if the task has all expected params
+            for expected_param in task_action.expected_params:
+                if not expected_param in job_param:
+                    raise Exception("recipe not configured correctly")
+            # update the job_param for the next run
+            job_param.update(task_action.expected_result)
 
 class Worker(models.Model):
     """

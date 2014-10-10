@@ -16,8 +16,8 @@ class FailingAction(Action):
 
 class AddingDotAction(Action):
 
-    expected_params = {"parameter": "string"}
-    expected_result = {"parameter": "string"}
+    expected_params = {"parameter": ""}
+    expected_result = {"parameter": ""}
 
     def run(task_param):
         """ Task that adds '.' """
@@ -29,8 +29,8 @@ class AddingDotAction(Action):
 
 class Multiplying10Action(Action):
 
-    expected_params = {"number": "int"}
-    expected_result = {"number10": "int"}
+    expected_params = {"number": 0}
+    expected_result = {"number10": 0}
 
     def run(task_param):
         """Task, that multiplies the number by 10"""
@@ -41,8 +41,8 @@ class Multiplying10Action(Action):
 
 class RandomAction(Action):
 
-    expected_params = {"threshold": "float"}
-    expected_result = {"value": "string"}
+    expected_params = {"threshold": 0.1}
+    expected_result = {"value": ""}
 
     def run(task_param):
         """ Task, that has 50% chance of success. """
