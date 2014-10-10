@@ -21,8 +21,8 @@ class Recipe(models.Model):
         return self.name
 
     @staticmethod
-    def validate_tasks_inputs(tasks):
-        job_param = dict()
+    def validate_tasks_inputs(tasks, job):
+        job_param = loads(job.param)
         for task in tasks:
             task_action = ACTIONS[task.action_name]()
             # check if the applying runs correctly, the types do match
