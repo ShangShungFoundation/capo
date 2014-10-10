@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 from settings import ACTIONS
-
+from json import loads
 
 class Recipe(models.Model):
     """
@@ -22,7 +22,13 @@ class Recipe(models.Model):
 
     @staticmethod
     def validate_tasks_inputs(tasks):
-        return False
+        task = tasks[0]
+        task_param = task.param
+        task_action = ACTIONS[task.action_name]()
+        task_param_dict = loads(task_param)
+        for expected_param in task_action.expected_params:
+            if not expected_param in task_param_dict:
+                raise Exception("recipe not configured correctly")
 
 class Worker(models.Model):
     """

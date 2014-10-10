@@ -11,11 +11,12 @@ class ActionsTestCase(TestCase):
         a = ACTIONS
 
         task = Task
-        task.action_name = a["adding_dot"]
+        task.action_name = "adding_dot"
         task.param = '{"parameter": "xxx"}'
 
         tasks = [task]
 
-        result = Recipe.validate_tasks_inputs(tasks)
-
-        self.assertTrue(result)
+        try:
+            Recipe.validate_tasks_inputs(tasks)
+        except Exception as e:
+            self.fail("Unexpected exception raised: %s " % e)

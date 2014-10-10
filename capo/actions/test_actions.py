@@ -2,8 +2,8 @@ from action import Action
 
 class FailingAction(Action):
 
-    expected_param = {}
-    optional_param = {}
+    expected_params = {}
+    optional_params = {}
     expected_result = {}
 
     result = {}
@@ -16,7 +16,7 @@ class FailingAction(Action):
 
 class AddingDotAction(Action):
 
-    expected_param = {"parameter": "string"}
+    expected_params = {"parameter": "string"}
     expected_result = {"parameter": "string"}
 
     def run(task_param):

@@ -1,7 +1,7 @@
 class Action(object):
     # to be defined in child class
-    expected_param = {}
-    optional_param = {}
+    expected_params = {}
+    optional_params = {}
     expected_result = {}
 
     result = {}
