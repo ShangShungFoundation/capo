@@ -40,6 +40,7 @@ class Recipe(models.Model):
     def __unicode__(self):
         return self.name
 
+
     def action_desc(cls):
         return dumps(describe_actions(ACTIONS), default=json_serial)
 
