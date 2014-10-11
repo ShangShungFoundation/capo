@@ -1,8 +1,28 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 from settings import ACTIONS
+from json import loads, dumps
 
+
+def load_action(actions, action_name):
+    return getattr(__import__(actions[action_name], fromlist=[action_name]), action_name)
+
+def describe_actions(actions):
+    desc = {}
+    for action_name in actions:
+        action = load_action(actions, action_name)
+        desc[action_name] = {}
+        desc[action_name]['expected_param'] = action.expected_param
+        desc[action_name]['desc'] = action.__doc__
+
+    return desc
+
+def json_serial(obj):
+    if isinstance(obj, type):
+        "return total number of minutes"
+        return str(obj)
 
 class Recipe(models.Model):
     """
@@ -10,7 +30,7 @@ class Recipe(models.Model):
     """
     name = models.CharField(max_length=255)
     label = models.SlugField()
-    max_jobs = models.SmallIntegerField(default=1)
+    max_jobs = models.SmallIntegerField("max parallel jobs", default=1)
     param = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
 
@@ -20,9 +40,9 @@ class Recipe(models.Model):
     def __unicode__(self):
         return self.name
 
-    @staticmethod
-    def validate_tasks_inputs():
-        return True
+    def action_desc(cls):
+        return dumps(describe_actions(ACTIONS), default=json_serial)
+
 
 class Worker(models.Model):
     """
@@ -64,6 +84,13 @@ class Task(models.Model):
 
     class Meta:
         ordering = ('order', )
+
+    def clear(self):
+        action = load_action(ACTIONS, self.action_name)
+        valid_task_param = action.valid_task_param(self.param)
+        if not valid_task_param:
+            raise ValidationError(valid_task_param.join("\n"))
+
 
 CODES = ["info", "warning", "error"]
 

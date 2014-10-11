@@ -1,34 +1,23 @@
 # -*- coding: utf-8 -*-
-import pexpect
-import logging
+
+from cmd import cmd
 
 
-def transfer_sh(task_param):
+class transfer_sh(cmd):
     """
     transfers file to https://transfer.sh/
-{"src": "xxx.xxx", "file_name": "xxx.xxx"}
-{"src": "%(dst)s", "file_name": "%(file_name)s"}
+{"file_path": "xxx.xxx"}
+{"file_path": "%(file_path)s"}
 
 result:
 transfer_sh
     """
-    result = {}
-    cmd = 'curl --upload-file "%(src)s" https://transfer.sh/%(file_name)s' % task_param
-    try:
-        thread = pexpect.spawn(cmd)
-        logging.info('Transfering file "%(src)s" to transfer.sh' % task_param)
-    except pexpect.TIMEOUT as e:
-        msg = 'Curl command failed Error: %s' % e
-        result["error"] = msg
-        return False, result
-    else:
-        try:
-            thread.expect(pexpect.EOF)
-        except pexpect.TIMEOUT as e:
-            msg = 'Curl command failed Error: %s' % e
-            result["error"] = msg
-            return False, result
-        else:
-            result["job_param"] = {}
-            result["job_param"]["transfer_sh"] = thread.before.strip()
-            return True, result
+    expected_param = {"file_path": str}
+
+    def run(self, action_param):
+        file_path = action_param["file_path"]
+        file_name = file_path.split(file_path)[-1]
+        action_param = dict(
+            cmd='curl --upload-file "%s" https://transfer.sh/%s' % (file_path, file_name)
+        )
+        return super(transfer_sh, self).run(action_param)

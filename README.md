@@ -9,13 +9,14 @@ Tested with Django 1.6.6 and 1.7 on ubuntu.
 
 Concepts
 --------
-*Task* - defines action/s, its parameters and failback behaviour in the case of error.
 
-*Recipe* - defines sequence of tasks their initial parameters and max quantity of alowed parallel jobs.
+- *Task* - defines action/s, its parameters and failback behaviour in the case of error.
 
-*Job* - defines job parameters for *Recipe* execution, failback bahaviour and stores status of execution. *Job* parameters overwrite *Recipe* parameters. Each job can have various tasks
+- *Recipe* - defines sequence of tasks their initial parameters and max quantity of alowed parallel jobs.
 
-*Worker* - defines worker which can be specialized in some recepies
+- *Job* - defines job parameters for *Recipe* execution, failback bahaviour and stores status of execution. *Job* parameters overwrite *Recipe* parameters. Each job can have various tasks
+
+- *Worker* - defines worker which can be specialized in some recepies
 
 
 Installation

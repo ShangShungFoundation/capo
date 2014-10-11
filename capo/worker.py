@@ -2,12 +2,13 @@ import json
 import time
 import datetime
 
-from models import Job, Log, FAILED, WAITING, RUN, COMPLETED
+from models import Job, Log, FAILED, WAITING, RUN, COMPLETED, load_action
 
 from settings import ACTIONS
 
+
 def execute(action_name, action_param):
-    action = getattr(__import__(ACTIONS[action_name]), action_name)
+    action = load_action(ACTIONS, action_name)
     return action(action_param)
 
 
@@ -40,6 +41,7 @@ class RunJob(object):
             job.started_at = datetime.datetime.now()
             job.save()
             self.job_param['job_id'] = job.id
+            self.job_param['started_at'] = job.started_at
             self.job = job
             job_tasks = job.recipe.task_set.all().order_by("order")
             for job_task in job_tasks:
