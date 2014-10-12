@@ -31,7 +31,8 @@ class Recipe(models.Model):
     name = models.CharField(max_length=255)
     label = models.SlugField()
     max_jobs = models.SmallIntegerField("max parallel jobs", default=1)
-    param = models.TextField(blank=True, null=True)
+    param = models.TextField(blank=True, null=True,
+        help_text="template for formating parametrs values so they can be rterived form 'job_param'")
     description = models.TextField(blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
