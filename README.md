@@ -52,9 +52,9 @@ Pawer of capo derives from easy extensibility. You can add more actions (nouns) 
         
             def run(self, action_param):
                 ...  
-                # action logic comes here
+                # action logic goes here
                 ...
-                # action logic comes here
+                # you may return result to job parameters
                 self.out["job_param"]["__yuor_result__"] = x
                 
 If yor action invokes shell command you can inherit from 'cmd' class in '"capo/actions/cmd.py'
