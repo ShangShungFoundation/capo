@@ -33,12 +33,12 @@ Installation
 Extending
 ---------
 
-Pawer of capo derives from easy extensibility. You can add more actions (nouns) inheriting from base action located on "capo/actions/action.py:
+Power of capo derives from easy extensibility. You can add more actions (nouns) inheriting from base action located on "capo/actions/action.py:
 
-1. declared ditionary of 'required_param' together with their type as str, list, int etc. Parameter may accept many types like [str, lits]. "optional_params" and "expected_output" may be declared.
+1. Declare dictionary of 'required_param' together with their type as str, list, int etc. Value of parameter may consist of many types like [str, lits]. "optional_params" and "expected_output" may be declared too.
 2. Write documetation description about the action.
-3. Overriding  action 'run' method.
-4. If action returns something whish should be useed latr with another tasks shuld add result to 'self.out["job_param"]' dictionary.
+3. Overwrite action's 'run' method.
+4. If action returns contributes result wchich later tasks may require result should be apanded to 'self.out["job_param"]' dictionary.
 
 
         from capo.actions.actions import Action
