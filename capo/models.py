@@ -3,11 +3,15 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 from settings import ACTIONS
-from json import loads, dumps
+from json import dumps
 
 
 def load_action(actions, action_name):
-    return getattr(__import__(actions[action_name], fromlist=[action_name]), action_name)
+    return getattr(
+        __import__(actions[action_name],
+        fromlist=[action_name]), action_name
+    )
+
 
 def describe_actions(actions):
     desc = {}
@@ -19,10 +23,12 @@ def describe_actions(actions):
 
     return desc
 
+
 def json_serial(obj):
     if isinstance(obj, type):
         "return total number of minutes"
         return str(obj)
+
 
 class Recipe(models.Model):
     """
@@ -32,7 +38,8 @@ class Recipe(models.Model):
     label = models.SlugField()
     max_jobs = models.SmallIntegerField("max parallel jobs", default=1)
     param = models.TextField(blank=True, null=True,
-        help_text="template for formating parametrs values so they can be rterived form 'job_param'")
+        help_text="template for formating parametrs values so they can be \
+        rterived form 'job_param'")
     description = models.TextField(blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -40,7 +47,6 @@ class Recipe(models.Model):
 
     def __unicode__(self):
         return self.name
-
 
     def action_desc(cls):
         return dumps(describe_actions(ACTIONS), default=json_serial)
@@ -53,8 +59,10 @@ class Worker(models.Model):
     name = models.CharField(
         blank=True, null=True,
         max_length=150)
-    accepts = models.ManyToManyField(Recipe,
-        blank=True, null=True)
+    accepts = models.ManyToManyField(
+        Recipe,
+        blank=True, null=True
+    )
 
     def __unicode__(self):
         return self.id
