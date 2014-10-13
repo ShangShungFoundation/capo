@@ -36,7 +36,7 @@ Extending
 Power of capo derives from easy extensibility. You can add more actions (nouns) inheriting from base action located on "capo/actions/action.py:
 
 1. Declare dictionary of 'required_param' together with their type as str, list, int etc. Value of parameter may consist of many types like [str, lits]. "optional_params" and "expected_output" may be declared too.
-2. Write documetation description about the action.
+2. Write documetation for the action in doc string under your action class.
 3. Overwrite action's 'run' method.
 4. If action returns contributes result wchich later tasks may require result should be apanded to 'self.out["job_param"]' dictionary.
 
