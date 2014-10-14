@@ -60,7 +60,7 @@ If yor action invokes shell command you can inherit from 'cmd' class in '"capo/a
 To permit capo recognising your action add it to CAPO_ACTIONS dictionary project settings.py:
 
         CAPO_ACTIONS = dict(
-            action_name="path.to.your.modlule",
+            action_name="path.to.your.module",
         )
 
 Thanx
