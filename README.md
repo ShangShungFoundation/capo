@@ -38,28 +38,26 @@ Power of capo derives from easy extensibility. You can add more actions (verbs) 
 1. Declare dictionary of 'required_param' together with their type as str, list, int etc. Value of parameter may consist of many types like [str, lits]. "optional_params" and "expected_output" may be declared too.
 2. Write documetation for the action in doc string under your action class.
 3. Overwrite action's 'run' method.
-4. If action returns contributes result wchich later tasks may require result should be apanded to 'self.out["job_param"]' dictionary.
+4. If action returns contributes result wchich later tasks may require result should be apanded to 'self.out["job_param"]' dictionary.:
 
-
-    from capo.actions.actions import Action
-    
-    class my_action(Action):
-        """
+        from capo.actions.actions import Action
         
-        {"src": str, "dst": str,}
-        """
-        expected_param = {"src": str, "dst": str,}
-    
-        def run(self, action_param):
-            ...  
-            # action logic goes here
-            ...
-            # you may return result to job parameters
-            self.out["job_param"]["__yuor_result__"] = x
+        class my_action(Action):
+            """
+            {"src": str, "dst": str,}
+            """
+            expected_param = {"src": str, "dst": str,}
+        
+            def run(self, action_param):
+                ...  
+                # action logic goes here
+                ...
+                # you may return result to job parameters
+                self.out["job_param"]["__yuor_result__"] = x
                 
 If yor action invokes shell command you can inherit from 'cmd' class in '"capo/actions/cmd.py'
 
-To permit capo recognising your action add it to CAPO_ACTIONS dictionary project settings settings.py::
+To permit capo recognising your action add it to CAPO_ACTIONS dictionary project settings.py:
 
         CAPO_ACTIONS = dict(
             action_name="path.to.your.modlule",
