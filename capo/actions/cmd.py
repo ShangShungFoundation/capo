@@ -23,8 +23,8 @@ class cmd(Action):
         return exitcode, out, err
 
     def run(self, action_param):
-        self.out["job_param"]["cmds"] = []
         cmd = action_param["cmd"]
+        self.out["job_param"]["cmds"] = [cmd]
         exitcode, out, err = self.exe(cmd)
         if not err:
             self.out["job_param"]["cmds"].append(out.strip())

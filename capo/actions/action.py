@@ -5,7 +5,8 @@ class Action(object):
     each action should have description
 
     """
-    out = {"job_param":{}}
+    out = {}
+    job_param = {}
     errors = []
     action_param = {}
 
@@ -14,31 +15,20 @@ class Action(object):
     optional_param = {}
     expected_result = {}
     
-
     def __init__(self, action_param = None):
         if action_param:
             self.action_param = action_param
             param_errors = self.valid_action_param(action_param)
             if param_errors:
                 self.errors = param_errors
-            else:
-                self.run(action_param)
 
-    def run(self):
+    def run(self, action_param):
         # this should be overwritten 
         pass
 
     def log_error(self, msg):
         self.errors.append(msg)
         return False
-
-    def result(self):
-        if self.errors:
-            self.out["errors"] = self.errors
-            return False, self.out
-        else:
-            return True, self.out
-
 
     def valid_action_param(self, action_param):
         errors = []

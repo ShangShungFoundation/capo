@@ -1,24 +1,30 @@
-import boto
 import os
+import datetime
 
-from cmd import cmd
-# http://stackoverflow.com/questions/10044151/how-to-generate-a-temporary-url-to-upload-file-to-amazon-s3-with-boto-library
+import boto
+from boto.s3.key import Key
+
+from action import Action
 from django.conf import settings
 
-class amazon_upload(cmd):
-    """
 
-{"file_path": "xxx.xxx",
-"file_path": "%(file_path)s"}
+class amazon_upload(Action):
+    """
+    {"file_path": "xxx.xxx",
+    "file_path": "%(file_path)s"}
     """
     expected_param = {"file_path": str}
-
+    
     def run(self, action_param):
         file_path = action_param["file_path"]
+        file_name = file_path.split("/")[-1]
+        aws_dir = action_param.get("aws_dir", datetime.datetime.now().isoformat())
 
-        c = boto.connect_s3()
-        fp = open(file_path)
-        content_length = len(fp.read())
-        temp_url = c.generate_url(settings.seconds_available, 'PUT', settings.bucket_name, settings.s3_key)
-        cmd = 'curl --request PUT --upload-file true_measure/test_files/test_file_w_content.txt "%s"' % temp_url
-        return super(upload, self).run({"cmd": cmd})
+        c = boto.connect_s3(
+            settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
+        b = c.get_bucket(settings.AWS_BUCKET_NAME)
+        k = Key(b)
+        k.key = "%s/%s" % (aws_dir, file_name)
+        k.set_contents_from_filename(file_path)
+        temp_url = k.generate_url(settings.AWS_SECONDS_AWAILABLE, 'GET')
+        self.job_param["temp_url"] = temp_url
