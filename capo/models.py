@@ -18,7 +18,7 @@ def describe_actions(actions):
     for action_name in actions:
         action = load_action(actions, action_name)
         desc[action_name] = {}
-        desc[action_name]['expected_param'] = action.expected_param
+        desc[action_name]['expected_param'] = getattr(action, "expected_param", "")
         desc[action_name]['desc'] = action.__doc__
 
     return desc
@@ -60,12 +60,10 @@ class Worker(models.Model):
         blank=True, null=True,
         max_length=150)
     accepts = models.ManyToManyField(
-        Recipe,
-        blank=True, null=True
-    )
+        Recipe, blank=True)
 
     def __unicode__(self):
-        return self.id
+        return u"#%s" % self.id
 
 ON_ERROR = ["finish", "repeat_task"]
 
