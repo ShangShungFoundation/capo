@@ -25,4 +25,3 @@ class send(Action):
         else:
             if not sent:
                 self.log_error(error_msg)
-        return self.result()

@@ -7,11 +7,16 @@ from json import dumps
 
 
 def load_action(actions, action_name):
+<<<<<<< HEAD
     return getattr(
         __import__(actions[action_name],
         fromlist=[action_name]), action_name
     )
 
+=======
+    #
+    return getattr(__import__(actions[action_name], fromlist=[action_name]), action_name)
+>>>>>>> 62d7909b87249234de027d288dfae03420544162
 
 def describe_actions(actions):
     desc = {}
@@ -49,21 +54,41 @@ class Recipe(models.Model):
         return self.name
 
     def action_desc(cls):
+        Job
         return dumps(describe_actions(ACTIONS), default=json_serial)
+
+
+COMMUNICATION = (
+    ("db", "db"),
+)
 
 
 class Worker(models.Model):
     """
-    Defines worker which can be spetialized in some recepies
+    Defines worker which can be specialized in some recepies
     """
     name = models.CharField(
-        blank=True, null=True,
         max_length=150)
-    accepts = models.ManyToManyField(
-        Recipe, blank=True)
+
+    #accepts = models.ManyToManyField(
+    #    Recipe, blank=True)
+
+    location = models.CharField(
+        max_length=250,
+        default="localhost",
+        help_text="url to communicate with the worker",)
+    communication = models.CharField(max_length=30, choices=COMMUNICATION)
+    active = models.BooleanField()
 
     def __unicode__(self):
-        return u"#%s" % self.id
+        return self.name
+
+
+class WorkerCapacity(models.Model):
+    worker = models.ForeignKey(User)
+    capacity = models.ForeignKey(Recipe)
+    max_jobs = models.SmallIntegerField("max parallel jobs", default=1)
+
 
 ON_ERROR = ["finish", "repeat_task"]
 
@@ -104,13 +129,13 @@ CODES = ["info", "warning", "error"]
 
 FAILED = 0
 WAITING = 1
-RUN = 2
+RUNNING = 2
 COMPLETED = 3
 
 STATUS = (
     (FAILED, "failed"),
     (WAITING, "waiting"),
-    (RUN, "running"),
+    (RUNNING, "running"),
     (COMPLETED, "completed"),
 )
 

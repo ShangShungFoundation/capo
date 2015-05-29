@@ -13,7 +13,7 @@ from actions.cmd import cmd
 from actions.transfer_sh import transfer_sh
 from actions.rm import rm
 from actions.zip_it import zip_it
-
+from actions.amazon_s3 import amazon_upload
 
 CUR_DIR = os.path.dirname(os.path.dirname(__file__))
 TEST_DIR = os.path.join(CUR_DIR, "capo", "test")
@@ -112,4 +112,9 @@ class TestZip(TestCase):
         self.assertTrue(success)
 
         
-        
+class TestZip(TestCase):     
+    def test_amazon_upload():
+        src = os.path.join(TEST_DIR, "img.jpg")
+        u = amazon_upload()
+        success, result = u.run({"file_path": src})
+        self.assertTrue(success)

@@ -1,8 +1,8 @@
 import json
 
-from models import Job, Log, FAILED, WAITING, RUN, COMPLETED
+from models import Job, Log, FAILED, WAITING, RUNNING, COMPLETED
+from worker import Worker
 
-from worker import RunJob
 
 
 class Capo(object):
@@ -10,6 +10,7 @@ class Capo(object):
     Singleton ruthlesly managing jobs.
     """
     jobs = []
+    workers = []
     runs = {}  # stores runs to prevent infinite loop
 
     def get_awaiting_jobs(self):
@@ -20,7 +21,7 @@ class Capo(object):
         return awaiting_jobs
 
     def runing_jobs(self, recipe_id=None):
-        qargs = dict(status__exact=RUN)
+        qargs = dict(status__exact=RUNNING)
         if recipe_id:
             qargs["recipe_id"] = recipe_id
         runing_jobs = Job.objects.filter(**qargs).order_by("started_at")
@@ -48,23 +49,24 @@ class Capo(object):
             return None
 
     def repeat_job(self, job_id, job_param=None):
-        run = RunJob(job_id, job_param)
+        run = Worker(job_id, job_param)
         return run
 
     def run_job(self, job_id, job_param=None, do_next_job=True):
-        run = RunJob(job_id)
+        run = Worker()
+        run.run_job(job_id, job_param)
         if job_id in self.runs:
             self.runs[job_id] = self.runs[job_id] + 1
         else:
             self.runs[job_id] = 1
-        if run.job.status == FAILED and run.job.on_failure:
+        if run.current_job.status == FAILED and run.current_job.on_failure:
             if run.job.on_failure == "repeat":
                 on_failure_param = json.loads(run.job.on_failure_param)
                 max_repetitions = int(on_failure_param["max_repetitions"])
                 if max_repetitions <= self.runs[job_id]:
-                    self.self.run_job(job_id, False)
+                    self.run_job(job_id, False)
 
-        self.jobs.append(run.job)
+        self.jobs.append(run.current_job)
         if do_next_job:
             next_job = self.get_next_job()
             if next_job:

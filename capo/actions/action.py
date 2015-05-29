@@ -5,7 +5,8 @@ class Action(object):
     each action should have description
 
     """
-    out = {"job_param":{}}
+    out = {}
+    job_param = {}
     errors = []
     action_param = {}
 
@@ -20,24 +21,14 @@ class Action(object):
             param_errors = self.valid_action_param(action_param)
             if param_errors:
                 self.errors = param_errors
-            else:
-                self.run(action_param)
 
-    def run(self):
-        # this should be overwritten 
+    def run(self, action_param):
+        # this should be overwritten
         pass
 
     def log_error(self, msg):
         self.errors.append(msg)
         return False
-
-    def result(self):
-        if self.errors:
-            self.out["errors"] = self.errors
-            return False, self.out
-        else:
-            return True, self.out
-
 
     def valid_action_param(self, action_param):
         errors = []
@@ -45,7 +36,7 @@ class Action(object):
             if param not in action_param:
                 msg = "action '%s' requires '%s' parameter" % (self.__name__, param)
                 errors.append(msg)
-            
+
             param_value = action_param[param]
             expected_type = self.expected_param[param]
 
@@ -56,7 +47,7 @@ class Action(object):
 
             if type(param_value) not in expected_types:
                 msg = "action '%s' %s=%s parameter should be %s instead %s" % (
-                    self.__class__.__name__, 
+                    self.__class__.__name__,
                     param,
                     param_value,
                     expected_type,
@@ -76,5 +67,3 @@ class Action(object):
                 errors.append(msg)
 
         return errors if len(errors) > 0 else True
-
-

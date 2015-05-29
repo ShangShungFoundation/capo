@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import Recipe, Task, Job, Log
+from models import Recipe, Task, Job, Log, Worker, WorkerCapacity
 from django_admin_bootstrapped.admin.models import SortableInline
 
 
@@ -18,10 +18,7 @@ class JobAdmin(admin.ModelAdmin):
     list_filter = ('status', 'submited_by',)
     readonly_fields = ("started_at", "completed_at", "submited_by")
     save_as = True
-
-    inlines = [
-        LogInline,
-    ]
+    inlines = [LogInline]
 
     fieldsets = (
         (None, {
@@ -45,7 +42,6 @@ class JobAdmin(admin.ModelAdmin):
             )
         }),
     )
-
 
     def save_model(self, request, obj, form, change):
         if getattr(obj, 'submited_by', None) is None:
@@ -80,7 +76,8 @@ class RecipeAdmin(admin.ModelAdmin):
 
 
 class TaskAdmin(admin.ModelAdmin):
-
+    inlines = [TaskInline]
+    save_as = True
     fieldsets = (
         (None, {
             'fields': (
@@ -108,7 +105,24 @@ class LogAdmin(admin.ModelAdmin):
     list_filter = ('code', )
 
 
+class LogInline(admin.StackedInline):
+    model = Log
+    extra = 0
+
+
+class WorkerCapacityInline(admin.StackedInline):
+    model = WorkerCapacity
+    extra = 0
+
+
+class WorkerAdmin(admin.ModelAdmin):
+    list_display = ('name', 'communication', 'active', )
+    inlines = [WorkerCapacityInline]
+    save_as = True
+
+
 admin.site.register(Recipe, RecipeAdmin)
 admin.site.register(Task, TaskAdmin)
+admin.site.register(Worker)
 admin.site.register(Job, JobAdmin)
 admin.site.register(Log, LogAdmin)
