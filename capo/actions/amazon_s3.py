@@ -1,9 +1,9 @@
 import boto
-import os
 
 from cmd import cmd
 # http://stackoverflow.com/questions/10044151/how-to-generate-a-temporary-url-to-upload-file-to-amazon-s3-with-boto-library
 from django.conf import settings
+
 
 class amazon_upload(cmd):
     """

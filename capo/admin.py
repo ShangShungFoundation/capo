@@ -16,11 +16,36 @@ class LogInline(admin.StackedInline):
 class JobAdmin(admin.ModelAdmin):
     list_display = ('recipe', 'id', 'status', 'execute_after', 'submited_by', 'submited_at')
     list_filter = ('status', 'submited_by',)
+    readonly_fields = ("started_at", "completed_at", "submited_by")
     save_as = True
 
     inlines = [
         LogInline,
     ]
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                "recipe",
+                "param",
+                ("submited_by"),
+                "observations",
+            )
+        }),
+        ('On failure', {
+            'fields': (
+                "on_failure",
+                "on_failure_param",
+            )
+        }),
+        ('Result', {
+            'fields': (
+                ("started_at", "completed_at"),
+                "result",
+            )
+        }),
+    )
+
 
     def save_model(self, request, obj, form, change):
         if getattr(obj, 'submited_by', None) is None:
@@ -29,10 +54,53 @@ class JobAdmin(admin.ModelAdmin):
 
 
 class RecipeAdmin(admin.ModelAdmin):
+    readonly_fields = ("created_by",)
+    save_as = True
+
     inlines = [
         TaskInline,
     ]
-    save_as = True
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                ("name", "label"),
+                "max_jobs",
+                "param",
+                "description",
+                "created_by"
+            )
+        }),
+    )
+
+    def save_model(self, request, obj, form, change):
+        if getattr(obj, 'created_by', None) is None:
+            obj.created_by = request.user
+        obj.save()
+
+
+class TaskAdmin(admin.ModelAdmin):
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                "recipe",
+                "is_active",
+            )
+        }),
+        ('Action', {
+            'fields': (
+                "action_name",
+                "param",
+            )
+        }),
+        ('On Failure', {
+            'fields': (
+                "on_error_action",
+                "on_error_param",
+            )
+        }),
+    )
 
 
 class LogAdmin(admin.ModelAdmin):
@@ -41,6 +109,6 @@ class LogAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Recipe, RecipeAdmin)
-admin.site.register(Task)
+admin.site.register(Task, TaskAdmin)
 admin.site.register(Job, JobAdmin)
 admin.site.register(Log, LogAdmin)

@@ -13,7 +13,6 @@ class Action(object):
     expected_param = {}  # {"src": [str, list], "dst_dir": str}
     optional_param = {}
     expected_result = {}
-    
 
     def __init__(self, action_param = None):
         if action_param:

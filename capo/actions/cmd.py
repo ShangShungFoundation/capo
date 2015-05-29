@@ -15,7 +15,7 @@ class cmd(Action):
         Execute the external command and get its exitcode, stdout and stderr.
         """
         args = shlex.split(cmd)
-     
+
         proc = Popen(args, stdout=PIPE, stderr=PIPE)
         out, err = proc.communicate()
         exitcode = proc.returncode

@@ -1,10 +1,9 @@
 import json
-import time
-import datetime
 
 from models import Job, Log, FAILED, WAITING, RUN, COMPLETED
 
 from worker import RunJob
+
 
 class Capo(object):
     """
